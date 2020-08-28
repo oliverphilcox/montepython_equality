@@ -1,0 +1,2 @@
+blake_priors.data_directory = data.path['data']
+blake_priors.use_nuisance =['norm']

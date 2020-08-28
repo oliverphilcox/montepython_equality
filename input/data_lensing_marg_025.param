@@ -1,0 +1,201 @@
+#------Experiments to test (separated with commas)-----
+
+data.experiments=['ngc_z1_marg','ngc_z3_marg','sgc_z1_marg','sgc_z3_marg','Planck_lensing_cmb_marg','blake_priors']
+
+#------ Settings for the over-sampling.
+# The first element will always be set to 1, for it is the sampling of the
+# cosmological parameters. The other numbers describe the over sampling of the
+# nuisance parameter space. This array must have the same dimension as the
+# number of blocks in your run (so, 1 for cosmological parameters, and then 1
+# for each experiment with varying nuisance parameters).
+# Note that when using Planck likelihoods, you definitely want to use [1, 4],
+# to oversample as much as possible the 14 nuisance parameters.
+# Remember to order manually the experiments from slowest to fastest (putting
+# Planck as the first set of experiments should be a safe bet, except if you
+# also have LSS experiments).
+# If you have experiments without nuisance, you do not need to specify an
+# additional entry in the over_sampling list (notice for instance that, out of
+# the three Planck likelihoods used, only Planck_highl requires nuisance
+# parameters, therefore over_sampling has a length of two (cosmology, plus one
+# set of nuisance).
+#
+data.over_sampling=[1, 3, 3, 3, 3, 1]
+
+#------ Parameter list -------
+
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to None
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'. You should put the derived
+# parameters at the end, and in case you are using the `-j fast` Cholesky
+# decomposition, you should order your nuisance parameters from slowest to
+# fastest.
+
+# Cosmological parameters list
+# (true mock parameters)
+data.parameters['omega_b']      = [  2.204530992,   0, 5,     0.5, 0.01, 'cosmo']
+data.parameters['omega_cdm']    = [ 0.1183615265123006,   0.04, 0.36,  0.02,    1, 'cosmo']
+#data.parameters['100*theta_s']  = [ 1.04110,   None, None,    0.00030,    1, 'cosmo']
+data.parameters['h']      = [  0.6777,   0.4, 0.9, 0.02, 1, 'cosmo']
+data.parameters['A_s']          = [  2.0989,   1., 4.,     0.2,    1e-9, 'cosmo']
+#data.parameters['ln10^{10}A_s'] = [  3.0447,   None, None,      0.015,    1, 'cosmo']
+data.parameters['n_s']          = [  0.9649,   0.87, 1.07,     0.01,    1, 'cosmo']
+#data.parameters['tau_reio']     = [  0.0543,  0.004, None,      0.008,    1, 'cosmo']
+
+# Use this if degenerate neutrino hierarchy
+data.parameters['M_tot'] =     [ 0.06, 0., 0.18,   0.1,  1, 'cosmo']
+
+# use this if Neff is a free parameter
+#data.parameters['deg_ncdm']     = [  2.7788,  0.0, None,      0,    1, 'cosmo']
+
+# Nuisance parameter list, same call, except the name does not have to be a class name
+#
+#for LSS the normalization can be sampled in a fast mode along with other nuisance parameters. Don't forget to account for that by multiplying sigma8 as
+#sigma8_true = norm* sigma8_class
+
+#data.parameters['norm']         = [ 1.0246167574428684,    0.5,  2.0,     8.9159e-02,     1,'nuisance']
+data.parameters['norm'] = [1., None, None, 0, 1, 'nuisance']
+
+#data.parameters['alpha_rs']         = [ 1.,    0.5,  2.0,     0.05,     1,'nuisance']
+
+# Planck lensing
+data.parameters['A_planck']          = [ 1.00061,   0.8,   1.2,     0.0025,     1, 'nuisance']
+
+
+### BOSS nuisance parameters
+
+data.parameters['b^{(1)}_1']         = [ 1.954426e+00,    1.,  4.,     5.8121e-02,     1,'nuisance']
+data.parameters['b^{(1)}_2']         = [-1.120318e+00,    -1,  -1,     9.4182e-01,     1,'nuisance']
+data.parameters['b^{(1)}_{G_2}']         = [ 9.310873e-02,    -1,  -1,     4.7171e-01,     1,'nuisance']
+#data.parameters['c^{(1)}_{0}']         = [ -7.3973e-01,    -1,  -1,     4.2080,     10,'nuisance']
+#data.parameters['c^{(1)}_{2}']         = [  -3.5711,    -1,  -1,     4.2764,     10,'nuisance']
+#data.parameters['P^{(1)}_{shot}']         = [ 6.1171,    -1,  -1,     2.1319,     1000,'nuisance']
+#data.parameters['b^{(1)}_4']         = [ 2.7619e-01,    -1,  -1,     1.3367e-01,     1000,'nuisance']
+#
+data.parameters['b^{(2)}_1']         = [  2.033220e+00,    1.,  4.,     8.9879e-02,     1,'nuisance']
+data.parameters['b^{(2)}_2']         = [ -4.723379e-01,    -1,  -1,     1.8779,     1,'nuisance']
+data.parameters['b^{(2)}_{G_2}']         = [  3.815670e-01,    -1,  -1,     6.6736e-01,     1,'nuisance']
+# data.parameters['c^{(2)}_{0}']         = [ -3.1063,    -1,  -1,     7.4157,     10,'nuisance']
+# data.parameters['c^{(2)}_{2}']         = [  1.4890,    -1,  -1,     6.3029,     10,'nuisance']
+# data.parameters['P^{(2)}_{shot}']         = [ 1.0232e-01,    -1,  -1,     2.4506,     1000,'nuisance']
+# data.parameters['b^{(2)}_4']         = [ 3.0953e-01,    -1,  -1,     1.8642e-01,     1000,'nuisance']
+#
+data.parameters['b^{(3)}_1']         = [ 1.834681e+00,    1.,  4.,     4.4482e-02,     1,'nuisance']
+data.parameters['b^{(3)}_2']         = [ -1.146168e+00,    -1,  -1,     7.6930e-01,     1,'nuisance']
+data.parameters['b^{(3)}_{G_2}']         = [ -9.464261e-02,    -1,  -1,     3.3288e-01,     1,'nuisance']
+# data.parameters['c^{(3)}_{0}']         = [ -2.7850,    -1,  -1,     3.6534,     10,'nuisance']
+# data.parameters['c^{(3)}_{2}']         = [  2.0129,    -1,  -1,     4.1430,     10,'nuisance']
+# data.parameters['P^{(3)}_{shot}']         = [ 7.6269e-01,    -1,  -1,     1.4192,     1000,'nuisance']
+# data.parameters['b^{(3)}_4']         = [ 4.1584e-01,    -1,  -1,     2.0665e-01,     1000,'nuisance']
+#
+#
+data.parameters['b^{(4)}_1']         = [  1.830155e+00,    1.,  4.,     7.7179e-02,     1,'nuisance']
+data.parameters['b^{(4)}_2']         = [ -1.298393e+00,    -1,  -1,     1.6206,     1,'nuisance']
+data.parameters['b^{(4)}_{G_2}']         = [ 3.947722e-01,    -1,  -1,    6.4725e-01,     1,'nuisance']
+# data.parameters['c^{(4)}_{0}']         = [ -5.2660,    -1,  -1,     7.6070,     10,'nuisance']
+# data.parameters['c^{(4)}_{2}']         = [  -3.4073,    -1,  -1,     7.6190,     10,'nuisance']
+# data.parameters['P^{(4)}_{shot}']         = [ 4.3376,    -1,  -1,     3.0429,     1000,'nuisance']
+# data.parameters['b^{(4)}_4']         = [ 2.5759e-01,    -1,  -1,     4.1677e-01,     1000,'nuisance']
+
+# Derived parameters
+
+#data.parameters['z_reio']          = [1, None, None, 0,     1,   'derived']
+#data.parameters['Omega_Lambda']    = [1, None, None, 0,     1,   'derived']
+data.parameters['Omega_m']    = [1, None, None, 0,     1,   'derived']
+#data.parameters['YHe']             = [1, None, None, 0,     1,   'derived']
+data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
+#data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
+data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
+
+
+# Other cosmo parameters (fixed parameters, precision parameters, etc.)
+
+#data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/bbn/sBBN.dat'
+data.cosmo_arguments['tau_reio'] = 0.0543
+data.cosmo_arguments['YHe'] = 0.2454
+data.cosmo_arguments['k_pivot'] = 0.05
+#data.cosmo_arguments['n_s'] = 0.9649
+#data.cosmo_arguments['omega_b'] = 0.02237
+data.cosmo_arguments['T_cmb'] = 2.725
+#data.cosmo_arguments['A_s'] = 2.0989e-9
+data.cosmo_arguments['output'] = 'mPk'
+data.cosmo_arguments['P_k_max_h/Mpc'] = 100.
+data.cosmo_arguments['non linear'] = ' PT '
+data.cosmo_arguments['IR resummation'] = ' Yes '
+data.cosmo_arguments['Bias tracers'] = ' Yes '
+data.cosmo_arguments['RSD'] = ' Yes '
+data.cosmo_arguments['AP'] = ' Yes '
+data.cosmo_arguments['Omfid'] = 0.31
+data.cosmo_arguments['z_pk'] = '0.38,0.61'
+data.cosmo_arguments['FFTLog mode'] = 'FAST'
+
+
+# The base model features two massless
+# # and one massive neutrino with m=0.06eV.
+# # The settings below ensures that Neff=3.046
+# # and m/omega = 93.14 eV
+#data.cosmo_arguments['N_ur'] = 0.00641
+#data.cosmo_arguments['N_ncdm'] = 1
+#data.cosmo_arguments['deg_ncdm'] = 3
+# #data.cosmo_arguments['m_ncdm'] = 0.06
+#data.cosmo_arguments['T_ncdm'] = 0.71611
+#
+# data.cosmo_arguments['N_ur'] = 2.0328
+# data.cosmo_arguments['N_ncdm'] = 1
+# #data.cosmo_arguments['m_ncdm'] = 0.06
+# data.cosmo_arguments['T_ncdm'] = 0.71611
+
+# Degenerate neutrinos
+data.cosmo_arguments['N_ur'] = 0.00641
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['deg_ncdm'] = 3
+data.cosmo_arguments['T_ncdm'] = 0.71611
+
+# These two are required to get sigma8 as a derived parameter
+# (class must compute the P(k) until sufficient k)
+#data.cosmo_arguments['output'] = 'mPk'
+#data.cosmo_arguments['P_k_max_h/Mpc'] = 1.
+
+#------ Mcmc parameters ----
+
+data.N=10
+data.write_step=5
+
+ngc_z1_marg.measurements_file = 'ngc_z1/pk.dat'
+ngc_z3_marg.measurements_file = 'ngc_z3/pk.dat'
+sgc_z1_marg.measurements_file = 'sgc_z1/pk.dat'
+sgc_z3_marg.measurements_file = 'sgc_z3/pk.dat'
+ngc_z1_marg.covmat_file = 'ngc_z1/covmat.dat'
+ngc_z3_marg.covmat_file = 'ngc_z3/covmat.dat'
+sgc_z1_marg.covmat_file = 'sgc_z1/covmat.dat'
+sgc_z3_marg.covmat_file = 'sgc_z3/covmat.dat'
+
+# Priors on parameters (no Omega_m prior here)
+blake_priors.Omega_m_mean = 0.298
+blake_priors.Omega_m_std = 0.022
+blake_priors.norm_mean = 1.002906284244128
+blake_priors.norm_std = 0.0428796036018867*2
+blake_priors.omb_mean = 0.02268
+blake_priors.omb_std = 0.02268*0.5
+
+# Add prior means {b2, bG2, cs0, cs2, Pshot, b4} (here set from mock data)
+ngc_z1_marg.prior_means = [-1.44900337e+00, -1.27609441e-01, -1.19689354e+01, 3.40511048e+01, -2.18775094e-01,  4.07573239e+02]
+ngc_z1_marg.prior_sigs = [1, 0.5, 30., 30., 5e3, 500.]
+ngc_z1_marg.cut_k_size = 48 # k = 0.25
+
+ngc_z3_marg.prior_means = [-1.85811494e+00, -7.38679144e-02,  6.45421425e+00, 2.70539747e+01,  2.70904758e+03,  1.06224983e+02]
+ngc_z3_marg.prior_sigs = [1, 0.5, 30., 30., 5e3, 500.]
+ngc_z3_marg.cut_k_size = 48
+
+sgc_z1_marg.prior_means = [-1.42913886e+00,  1.27854707e-01, -1.60120278e+00, 3.34910139e+01,  2.20950473e+03,  8.34690322e+01]
+sgc_z1_marg.prior_sigs = [1, 0.5, 30., 30., 5e3, 500.]
+sgc_z1_marg.cut_k_size = 48
+
+sgc_z3_marg.prior_means = [-9.98157415e-01,  6.05874846e-02,  6.46048174e+00, 3.62313514e+01,  1.57028372e+03,  2.23267750e+02]
+sgc_z3_marg.prior_sigs = [1, 0.5, 30., 30., 5e3, 500.]
+sgc_z3_marg.cut_k_size = 48
+
+# Planck lensing prior
+#Planck_highl.A_planck_prior_center            = 1
+#Planck_highl.A_planck_prior_variance          = 0.0025
