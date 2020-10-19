@@ -18,7 +18,7 @@ data.experiments=['euclid_P1loopAP']
 # the three Planck likelihoods used, only Planck_highl requires nuisance
 # parameters, therefore over_sampling has a length of two (cosmology, plus one
 # set of nuisance).
-data.over_sampling=[1,1]
+data.over_sampling=[1,3]
 
 #------ Parameter list -------
 
@@ -32,10 +32,11 @@ data.over_sampling=[1,1]
 # fastest.
 
 # Cosmological parameters list
+## NB: any comments on the same line as a parameter declaration will result in the line not being read
 
-data.parameters['m_ncdm']      = [ 0.1,   0., 1.,  0.05, 1, 'cosmo']
+data.parameters['m_ncdm']      = [ 0.1,   0., 1.,  0.01, 1, 'cosmo']
 # total neutrino mass (assuming single massive neutrino)
-data.parameters['h']            = [0.6736,  -1,-1, 0.02,1,   'cosmo']
+data.parameters['h']            = [0.6736,  None, None, 0.02,1,   'cosmo']
 data.parameters['omega_b']      = [ 2.237,   None, None,  0.03, 0.01, 'cosmo']
 data.parameters['omega_cdm']    = [0.12,   None, None, 0.001,    1, 'cosmo']
 data.parameters['n_s']          = [0.9649,   None, None, 0.02,    1, 'cosmo']
@@ -122,8 +123,9 @@ data.cosmo_arguments['ln10^{10}A_s'] = 3.044
 # tau_reio - probably doesn't influence LSS
 data.cosmo_arguments['tau_reio'] = 0.0544
 
+# neutrino parameters for single massive neutrino
 #data.cosmo_arguments['N_eff'] = 3.04
-data.cosmo_arguments['N_eff'] = 2.0328 # single massive neutrino
+data.cosmo_arguments['N_eff'] = 2.0328
 data.cosmo_arguments['N_ncdm'] = 1
 
 data.cosmo_arguments['YHe'] = 0.25
@@ -137,7 +139,7 @@ data.cosmo_arguments['FFTLog mode'] = 'FAST'
 #data.cosmo_arguments['FFTLog mode'] = 'long'
 data.cosmo_arguments['P_k_max_h/Mpc'] = 100.
 data.cosmo_arguments['T_cmb'] = ' 2.7255 '
-data.cosmo_arguments['alpha_s'] = ' 0. '
+#data.cosmo_arguments['alpha_s'] = ' 0. '
 #data.cosmo_arguments['non linear'] = ' SPT '
 data.cosmo_arguments['non linear'] = ' PT '
 data.cosmo_arguments['IR resummation'] = ' Yes '
